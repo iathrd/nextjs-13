@@ -7,85 +7,11 @@ import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 import Link from "next/link";
 import React from "react";
+import { getQuestions } from "@/lib/actions/question.action";
 
-const questions = [
-  {
-    _id: 1,
-    title: "How to use React?",
-    description: "I am new to React and I want to learn how to use it.",
-    tags: [
-      { _id: 1, name: "React" },
-      { _id: 2, name: "Javascript" },
-    ],
-    author: {
-      _id: 1,
-      name: "John Doe",
-      picture: "john-doe.jpg",
-    },
-    views: 100000,
-    answers: [],
-    upvotes: 10,
-    createdAt: new Date("2021-10-10T12:00:00.000Z"),
-  },
-  {
-    _id: 2,
-    title: "How to create a TypeScript project?",
-    description:
-      "I want to create a TypeScript project and need guidance on how to get started.",
-    tags: [
-      { _id: 3, name: "TypeScript" },
-      { _id: 4, name: "Project Setup" },
-    ],
-    author: {
-      _id: 2,
-      name: "Jane Smith",
-      picture: "jane-smith.jpg",
-    },
-    views: 50,
-    answers: [],
-    upvotes: 5,
-    createdAt: new Date("2021-10-11T09:30:00.000Z"),
-  },
-  {
-    _id: 3,
-    title: "How to style components in React?",
-    description: "I want to learn different ways to style components in React.",
-    tags: [
-      { _id: 5, name: "React" },
-      { _id: 6, name: "CSS-in-JS" },
-    ],
-    author: {
-      _id: 3,
-      name: "Alex Johnson",
-      picture: "alex-johnson.jpg",
-    },
-    views: 80,
-    answers: [],
-    upvotes: 8,
-    createdAt: new Date("2021-10-12T15:45:00.000Z"),
-  },
-  {
-    _id: 4,
-    title: "How to fetch data from an API in React?",
-    description:
-      "I need help with fetching data from an API in my React application.",
-    tags: [
-      { _id: 7, name: "React" },
-      { _id: 8, name: "API Integration" },
-    ],
-    author: {
-      _id: 4,
-      name: "Mike Thompson",
-      picture: "mike-thompson.jpg",
-    },
-    views: 120,
-    answers: [],
-    upvotes: 12,
-    createdAt: new Date("2021-10-13T11:20:00.000Z"),
-  },
-];
+async function Home() {
+  const result = await getQuestions({});
 
-function Home() {
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between sm:flex-row sm:items-center">
@@ -113,8 +39,8 @@ function Home() {
       <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               title={question.title}
               tags={question.tags}
