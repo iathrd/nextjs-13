@@ -18,10 +18,16 @@ import { z } from "zod";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-import { create } from "domain";
 import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
 
-const Question = () => {
+interface QuestionProps {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: QuestionProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const type: any = "cerate";
@@ -37,14 +43,19 @@ const Question = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+    console.log("HAHAHA", values);
     setIsSubmitting(true);
     try {
-      // make an async call to your API -> create a queation
-      // contain all form data
-      // navigate to home page
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
 
-      await createQuestion(values);
+      router.push("/");
     } catch (error) {
+      console.log("Error", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -115,7 +126,7 @@ const Question = () => {
           render={({ field }) => (
             <FormItem className="flex w-full flex-col gap-3">
               <FormLabel className="paragraph-semibold text-dark400_light800">
-                Detail explanation of your problem{" "}
+                Detail explanation of your problem
                 <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
