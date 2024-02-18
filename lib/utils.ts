@@ -37,6 +37,6 @@ export const formatNumber = (num: number) => {
   } else if (num >= 1000) {
     return (num / 1000).toFixed(1) + "K";
   } else {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || "0";
   }
 };
