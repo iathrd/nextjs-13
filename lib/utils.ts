@@ -40,3 +40,9 @@ export const formatNumber = (num: number) => {
     return num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || "0";
   }
 };
+
+export const getJoinedDate = (date: Date): string => {
+  const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+  return `${month} ${year}`;
+};
